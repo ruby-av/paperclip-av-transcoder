@@ -26,12 +26,20 @@ class Document < ActiveRecord::Base
     storage: :filesystem,
     path: "./spec/tmp/:id.:extension",
     url: "/spec/tmp/:id.:extension",
+    whiny: true,
     styles: {
       small: {
-        output: {
-          volume: '10'
+        format: 'ogv',
+        convert_options: {
+          output: {
+            af: "volume=volume=10",
+            ab: '256k',
+            ar: 44100,
+            ac: 2
+          }
         }
       }
     },
   processors: [:transcoder]
+  do_not_validate_attachment_file_type :original
 end

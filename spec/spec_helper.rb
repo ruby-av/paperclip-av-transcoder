@@ -32,7 +32,6 @@ class Document < ActiveRecord::Base
         format: 'ogv',
         convert_options: {
           output: {
-            af: "volume=volume=10",
             ab: '256k',
             ar: 44100,
             ac: 2

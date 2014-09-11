@@ -1,5 +1,4 @@
 require 'spec_helper'
-require 'debugger'
 
 describe Paperclip::Transcoder do
   let(:subject) { Paperclip::Transcoder.new(source) }
@@ -8,10 +7,6 @@ describe Paperclip::Transcoder do
   let(:destination) { Pathname.new("#{Dir.tmpdir}/transcoder/") }
   
   describe ".transcode" do
-    it do
-      puts "here"
-      document
-    end
-    # it { expect(File.exists?(document.original.path(:small))).to eq true }
+    it { expect(File.exists?(document.original.path(:small))).to eq true }
   end
 end

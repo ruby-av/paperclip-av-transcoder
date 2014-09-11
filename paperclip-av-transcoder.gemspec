@@ -23,7 +23,6 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency "rspec", "~> 3.0.0"
   spec.add_development_dependency "rails", ">= 4.0.0"
   spec.add_development_dependency "sqlite3"
-  spec.add_development_dependency "debugger"
   
   spec.add_dependency "paperclip", ">=2.5.2"
   spec.add_dependency "av", ">= 0.0.1"

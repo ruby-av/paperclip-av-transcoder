@@ -25,5 +25,5 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency "sqlite3"
   
   spec.add_dependency "paperclip", ">=2.5.2"
-  spec.add_dependency "av", ">= 0.0.1"
+  spec.add_dependency "av", ">= 0.4.0"
 end

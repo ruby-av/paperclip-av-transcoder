@@ -20,7 +20,7 @@ module Paperclip
       @geometry         = options[:geometry]
       unless @geometry.nil?
         modifier = @geometry[0]
-        @geometry[0] = '' if ['#', '<', '>'].includes? modifier
+        @geometry[0] = '' if ['#', '<', '>'].include? modifier
         @width, @height   = @geometry.split('x')
         @keep_aspect      = @width[0] == '!' || @height[0] == '!'
         @pad_only         = @keep_aspect    && modifier == '#'
@@ -41,28 +41,33 @@ module Paperclip
       ::Av.cli.add_source @file
       dst = Tempfile.new([@basename, @format ? ".#{@format}" : ''])
       dst.binmode
-
-      cli = ::Av.cli(quite: true)
-      cli.add_source(@file.path)
-      cli.add_destination(dst.path)
-      cli.reset_input_filters
-      if @convert_options[:input]
-        @convert_options[:input].each do |h|
-          cli.add_input_param h
+      
+      if @meta
+        log "Transocding supported file #{@file.path}"
+        cli = ::Av.cli(quite: true)
+        cli.add_source(@file.path)
+        cli.add_destination(dst.path)
+        cli.reset_input_filters
+        if @convert_options.present?
+          if @convert_options[:input]
+            @convert_options[:input].each do |h|
+              cli.add_input_param h
+            end
+          end
+          if @convert_options[:output]
+            @convert_options[:output].each do |h|
+              cli.add_output_param h
+            end
+          end
         end
-      end
-      if @convert_options[:output]
-        @convert_options[:output].each do |h|
-          cli.add_output_param h
-        end
-      end
 
-      begin
-        cli.run
-        log "Successfully transcoded #{@base} to #{dst}"
-        return dst # Things went fine, pass the file to paperclip for saving
-      rescue Cocaine::ExitStatusError => e
-        raise Paperclip::Error, "error while transcoding #{@basename}: #{e}" if @whiny
+        begin
+          cli.run
+          log "Successfully transcoded #{@base} to #{dst}"
+          return dst
+        rescue Cocaine::ExitStatusError => e
+          raise Paperclip::Error, "error while transcoding #{@basename}: #{e}" if @whiny
+        end
       end
       # If the file is not supported, just return it
       @file

@@ -1,3 +1,7 @@
+ENV["RAILS_ENV"] = "test"
+require 'coveralls'
+Coveralls.wear!
+
 require 'rubygems'
 require 'rspec'
 require 'bundler/setup'

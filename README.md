@@ -44,6 +44,13 @@ This will produce:
 
 You may optionally add `<attachment>_meta` to your model and it will get populated with information about the processed video.
 
+The geometry parameters are:
+
+1. '!' - Keep the same aspect of the image/video, but with the passed dimesion.
+2. '#' - Pad the image/video.
+3. '<' - Enlarge the image/video.
+4. '>' - Shrink the image/video.
+
 ## Contributing
 
 1. Fork it ( https://github.com/ruby-av/paperclip-av-transcoder/fork )

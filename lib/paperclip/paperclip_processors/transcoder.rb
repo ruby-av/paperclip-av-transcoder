@@ -11,6 +11,7 @@ module Paperclip
       @file             = file
       @current_format   = File.extname(@file.path)
       @basename         = File.basename(@file.path, @current_format)
+      @cli              = ::Av.cli
       @meta             = ::Av.cli.identify(@file.path)
       @whiny            = options[:whiny].nil? ? true : options[:whiny]
       
@@ -38,39 +39,42 @@ module Paperclip
     # Performs the transcoding of the +file+ into a thumbnail/video. Returns the Tempfile
     # that contains the new image/video.
     def make
-      ::Av.cli.add_source @file
+      ::Av.logger = Paperclip.logger
+      @cli.add_source @file
       dst = Tempfile.new([@basename, @format ? ".#{@format}" : ''])
       dst.binmode
       
       if @meta
         log "Transocding supported file #{@file.path}"
-        cli = ::Av.cli(quite: true)
-        cli.add_source(@file.path)
-        cli.add_destination(dst.path)
-        cli.reset_input_filters
+        @cli.add_source(@file.path)
+        @cli.add_destination(dst.path)
+        @cli.reset_input_filters
         if @convert_options.present?
           if @convert_options[:input]
             @convert_options[:input].each do |h|
-              cli.add_input_param h
+              @cli.add_input_param h
             end
           end
           if @convert_options[:output]
             @convert_options[:output].each do |h|
-              cli.add_output_param h
+              @cli.add_output_param h
             end
           end
         end
 
         begin
-          cli.run
-          log "Successfully transcoded #{@base} to #{dst}"
-          return dst
+          @cli.run
+          log "Successfully transcoded #{@basename} to #{dst}"
         rescue Cocaine::ExitStatusError => e
           raise Paperclip::Error, "error while transcoding #{@basename}: #{e}" if @whiny
         end
+      else
+        log "Unsupported file #{@file.path}"
+        # If the file is not supported, just return it
+        dst << @file.read
+        dst.close
       end
-      # If the file is not supported, just return it
-      @file
+      dst
     end
     
     def log message

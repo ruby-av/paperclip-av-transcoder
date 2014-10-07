@@ -7,7 +7,7 @@ describe Paperclip::Transcoder do
   let(:destination) { Pathname.new("#{Dir.tmpdir}/transcoder/") }
   
   describe "supported formats" do
-    let(:subject) { Paperclip::Chainer.new(supported) }
+    let(:subject) { Paperclip::Transcoder.new(supported) }
     let(:document) { Document.create(video: Rack::Test::UploadedFile.new(supported, 'video/mp4')) }
     
     describe ".transcode" do
@@ -16,7 +16,7 @@ describe Paperclip::Transcoder do
   end
   
   describe "unsupported formats" do
-    let(:subject) { Paperclip::Chainer.new(unsupported) }
+    let(:subject) { Paperclip::Transcoder.new(unsupported) }
     let(:document) { Document.create(image: Rack::Test::UploadedFile.new(unsupported, 'image/png')) }
     describe ".transcode" do
       it { expect(File.exists?(document.image.path(:small))).to eq true }

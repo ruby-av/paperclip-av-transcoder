@@ -34,7 +34,7 @@ In your model:
       has_attached_file :avatar, :styles => {
         :medium => { :geometry => "640x480", :format => 'flv' },
         :thumb => { :geometry => "100x100#", :format => 'jpg', :time => 10 }
-      }, :processors => [:ffmpeg]
+      }, :processors => [:transcoder]
     end
 
 This will produce:
@@ -43,6 +43,13 @@ This will produce:
 2. A screenshot `:thumb` with the requested dimensions regardless of the aspect ratio.
 
 You may optionally add `<attachment>_meta` to your model and it will get populated with information about the processed video.
+
+The geometry parameters are:
+
+1. '!' - Keep the same aspect of the image/video, but with the passed dimesion.
+2. '#' - Pad the image/video.
+3. '<' - Enlarge the image/video.
+4. '>' - Shrink the image/video.
 
 ## Contributing
 

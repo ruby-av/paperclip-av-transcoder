@@ -41,6 +41,13 @@ module Paperclip
     def make
       ::Av.logger = Paperclip.logger
       @cli.add_source @file
+
+      if @convert_options && @convert_options.size > 0
+        @convert_options.each { |k,v|
+          @cli.add_output_param({k=>v})
+        } if @convert_options.is_a?(Hash)
+      end
+      
       dst = Tempfile.new([@basename, @format ? ".#{@format}" : ''])
       dst.binmode
       

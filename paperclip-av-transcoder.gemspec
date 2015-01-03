@@ -26,5 +26,5 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency "coveralls"
   
   spec.add_dependency "paperclip", ">=2.5.2"
-  spec.add_dependency "av", ">= 0.7.1"
+  spec.add_dependency "av", ">= 0.8.0"
 end

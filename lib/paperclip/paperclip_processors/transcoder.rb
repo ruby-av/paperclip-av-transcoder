@@ -14,10 +14,11 @@ module Paperclip
       @cli              = ::Av.cli
       @meta             = ::Av.cli.identify(@file.path)
       @whiny            = options[:whiny].nil? ? true : options[:whiny]
-      
-      @convert_options  = options[:convert_options]
+
+      @convert_options  = set_convert_options(options)
+
       @format           = options[:format]
-      
+
       @geometry         = options[:geometry]
       unless @geometry.nil?
         modifier = @geometry[0]
@@ -28,14 +29,16 @@ module Paperclip
         @enlarge_only     = @keep_aspect    && modifier == '<'
         @shrink_only      = @keep_aspect    && modifier == '>'
       end
-      
+
       @time             = options[:time].nil? ? 3 : options[:time]
       @auto_rotate      = options[:auto_rotate].nil? ? false : options[:auto_rotate]
       @pad_color        = options[:pad_color].nil? ? "black" : options[:pad_color]
-      
+
+      @convert_options[:output][:s] = format_geometry(@geometry) if @gemotry.present?
+
       attachment.instance_write(:meta, @meta) if attachment
     end
-    
+
     # Performs the transcoding of the +file+ into a thumbnail/video. Returns the Tempfile
     # that contains the new image/video.
     def make
@@ -43,7 +46,7 @@ module Paperclip
       @cli.add_source @file
       dst = Tempfile.new([@basename, @format ? ".#{@format}" : ''])
       dst.binmode
-      
+
       if @meta
         log "Transocding supported file #{@file.path}"
         @cli.add_source(@file.path)
@@ -76,9 +79,20 @@ module Paperclip
       end
       dst
     end
-    
+
     def log message
       Paperclip.log "[transcoder] #{message}"
+    end
+
+    def set_convert_options options
+      return options[:convert_options] if options[:convert_options].present?
+      options[:convert_options] = {output: {}}
+      return options[:convert_options]
+    end
+
+    def format_geometry geometry
+      return unless geometry.present?
+      return geometry.gsub(/[#!<>)]/, '')
     end
   end
 

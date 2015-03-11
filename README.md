@@ -10,6 +10,7 @@ This is a replacement for ( https://github.com/owahab/paperclip-ffmpeg ).
 [![Coverage Status](https://coveralls.io/repos/ruby-av/paperclip-av-transcoder/badge.png?branch=master)](https://coveralls.io/r/ruby-av/paperclip-av-transcoder?branch=master)
 [![Code Climate](https://codeclimate.com/github/ruby-av/paperclip-av-transcoder/badges/gpa.svg)](https://codeclimate.com/github/ruby-av/paperclip-av-transcoder)
 [![Dependency Status](https://gemnasium.com/ruby-av/paperclip-av-transcoder.svg)](https://gemnasium.com/ruby-av/paperclip-av-transcoder)
+[![Gem Version](https://badge.fury.io/rb/paperclip-av-transcoder.svg)](http://badge.fury.io/rb/paperclip-av-transcoder)
 
 ## Installation
 

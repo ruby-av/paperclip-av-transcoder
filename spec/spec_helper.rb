@@ -41,6 +41,10 @@ class Document < ActiveRecord::Base
             ac: 2
           }
         }
+      },
+      thumb: {
+        format: 'jpg',
+        time: 0
       }
     },
   processors: [:transcoder]
@@ -53,8 +57,8 @@ class Document < ActiveRecord::Base
     styles: {
       small: "100x100"
     },
-  processors: [:transcoder, :thumbnail]
-  
+    processors: [:transcoder, :thumbnail]
+
   do_not_validate_attachment_file_type :video
   do_not_validate_attachment_file_type :image
 end

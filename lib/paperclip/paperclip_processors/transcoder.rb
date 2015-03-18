@@ -52,6 +52,12 @@ module Paperclip
         @cli.add_source(@file.path)
         @cli.add_destination(dst.path)
         @cli.reset_input_filters
+
+        if output_is_image?
+          @time = @time.call(@meta, @options) if @time.respond_to?(:call)
+          @cli.filter_seek @time
+        end
+
         if @convert_options.present?
           if @convert_options[:input]
             @convert_options[:input].each do |h|
@@ -93,6 +99,10 @@ module Paperclip
     def format_geometry geometry
       return unless geometry.present?
       return geometry.gsub(/[#!<>)]/, '')
+    end
+
+    def output_is_image?
+      !!@format.to_s.match(/jpe?g|png|gif$/)
     end
   end
 

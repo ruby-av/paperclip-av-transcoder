@@ -34,7 +34,7 @@ module Paperclip
       @auto_rotate      = options[:auto_rotate].nil? ? false : options[:auto_rotate]
       @pad_color        = options[:pad_color].nil? ? "black" : options[:pad_color]
 
-      @convert_options[:output][:s] = format_geometry(@geometry) if @gemotry.present?
+      @convert_options[:output][:s] = format_geometry(@geometry) if @geometry.present?
 
       attachment.instance_write(:meta, @meta) if attachment
     end

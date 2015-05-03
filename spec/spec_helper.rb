@@ -45,9 +45,13 @@ class Document < ActiveRecord::Base
       thumb: {
         format: 'jpg',
         time: 0
+      },
+      thumb_with_time_method: {
+        format: 'png',
+        time: :set_screenshot_time
       }
     },
-  processors: [:transcoder]
+    processors: [:transcoder]
 
   has_attached_file :image,
     storage: :filesystem,
@@ -61,4 +65,8 @@ class Document < ActiveRecord::Base
 
   do_not_validate_attachment_file_type :video
   do_not_validate_attachment_file_type :image
+  
+  def set_screenshot_time meta, options
+    2
+  end
 end

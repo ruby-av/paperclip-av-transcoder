@@ -38,19 +38,34 @@ In your model:
       }, :processors => [:transcoder]
     end
 
-This will produce:
+### Chaining
 
-1. A transcoded `:medium` FLV file with the requested dimensions if they will match the aspect ratio of the original file, otherwise, width will be maintained and height will be recalculated to keep the original aspect ration.
-2. A screenshot `:thumb` with the requested dimensions regardless of the aspect ratio.
+You can chain other `paperclip` processors in the `processors` array. In this
+case `paperclip-av-transcoder` will only process files recognized by `av` gem.
 
-You may optionally add `<attachment>_meta` to your model and it will get populated with information about the processed video.
+### Caching attachment information
 
-The geometry parameters are:
+You may create a migration to add `<attachment>_meta` to your model
+and it will get populated with information about the processed attachment.
 
-1. '!' - Keep the same aspect of the image/video, but with the passed dimesion.
-2. '#' - Pad the image/video.
-3. '<' - Enlarge the image/video.
-4. '>' - Shrink the image/video.
+### Screenshot
+
+When transcoding from video to image (taking screenshots from a video), you can 
+specify the time using one of the following methods:
+
+#### Integer/String
+
+Will be used as-is. You might need to make sure the number is less than the
+video length.
+
+#### Symbol
+
+You can provide a method name as a symbol. The method will be passed two 
+parameters:
+  
+  `meta`: `hash` containing video information.
+  
+  `options`:  `hash` containing the style options.
 
 ## Contributing
 

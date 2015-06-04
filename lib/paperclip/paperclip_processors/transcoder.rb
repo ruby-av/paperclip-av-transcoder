@@ -48,7 +48,7 @@ module Paperclip
       dst.binmode
 
       if @meta
-        log "Transocding supported file #{@file.path}"
+        log "Transcoding supported file #{@file.path}"
         @cli.add_source(@file.path)
         @cli.add_destination(dst.path)
         @cli.reset_input_filters

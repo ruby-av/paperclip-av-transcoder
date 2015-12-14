@@ -56,18 +56,7 @@ module Paperclip
         if output_is_image?
           @time = @time.call(@meta, @options) if @time.respond_to?(:call)
           @cli.filter_seek @time
-
-          if @auto_rotate && !@meta[:rotate].nil?
-            log "Adding rotation #{@meta[:rotate]}"
-            case @meta[:rotate]
-            when 90
-              @convert_options[:output][:vf] = "'transpose=1'"
-            when 180
-              @convert_options[:output][:vf] = "'vflip, hflip'"
-            when 270
-              @convert_options[:output][:vf] = "'transpose=2'"
-            end
-          end
+          @cli.filter_rotate @meta[:rotate] if @auto_rotate && !@meta[:rotate].nil?
         end
 
         if @convert_options.present?

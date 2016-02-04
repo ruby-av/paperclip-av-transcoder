@@ -56,6 +56,7 @@ module Paperclip
         if output_is_image?
           @time = @time.call(@meta, @options) if @time.respond_to?(:call)
           @cli.filter_seek @time
+          @cli.filter_rotate @meta[:rotate] if @auto_rotate && !@meta[:rotate].nil?
         end
 
         if @convert_options.present?

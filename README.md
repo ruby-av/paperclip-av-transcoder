@@ -45,12 +45,34 @@ This will produce:
 
 You may optionally add `<attachment>_meta` to your model and it will get populated with information about the processed video.
 
-The geometry parameters are:
+### `geometry`
+
+The `geometry` option has the following available modifiers:
 
 1. '!' - Keep the same aspect of the image/video, but with the passed dimesion.
 2. '#' - Pad the image/video.
 3. '<' - Enlarge the image/video.
 4. '>' - Shrink the image/video.
+
+### `convert_options`
+
+The `convert_options` option lets you specify custom command line options to be sent to the `ffmpeg` command. The options are split into `output` and `input`, which define where in the pipeline they will be applied. Read more about which flags go where on the [official documentation](https://ffmpeg.org/ffmpeg.html).
+
+For example, sending in the `-an` flag would look like this:
+
+```ruby
+has_attached_file :video, styles: {
+  mobile: {
+    format: "mp4",
+    convert_options: {
+      output: {
+        an: nil # Remove audio track resulting in a silent movie, passing in nil results in `-an`,
+        name: "value" # Results in `-name value` in the command line
+      }
+    }
+  },
+}
+```
 
 ## Contributing
 

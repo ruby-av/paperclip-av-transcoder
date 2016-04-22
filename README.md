@@ -43,7 +43,17 @@ This will produce:
 1. A transcoded `:medium` FLV file with the requested dimensions if they will match the aspect ratio of the original file, otherwise, width will be maintained and height will be recalculated to keep the original aspect ration.
 2. A screenshot `:thumb` with the requested dimensions regardless of the aspect ratio.
 
-You may optionally add `<attachment>_meta` to your model and it will get populated with information about the processed video.
+### Meta Data
+
+Then paperclip-av-transcoder can optionally add uploaded file meta data to a database column for `<your_attachment>_meta`.
+
+Example: Given a model called `User` with an attachment field named `:avatar`, create a new migration to add an `avatar_meta` column to the `users` table.
+```
+def change
+  add_column :users, :avatar_meta, :data_type
+end
+```
+You can use a data type of `:json`, `:jsonb`, `:hstore`  or even just `:string`. Check what data types your database supports.
 
 ### `geometry`
 

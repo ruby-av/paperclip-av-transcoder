@@ -74,9 +74,12 @@ module Paperclip
 
         begin
           @cli.run
-          log "Successfully transcoded #{@basename} to #{dst}"
+          log "Successfully transcoded #{@basename} to #{dst.path}"
         rescue Cocaine::ExitStatusError => e
-          raise Paperclip::Error, "error while transcoding #{@basename}: #{e}" if @whiny
+          if @whiny
+            dst.close!
+            raise Paperclip::Error, "error while transcoding #{@basename}: #{e}"
+          end
         end
       else
         log "Unsupported file #{@file.path}"

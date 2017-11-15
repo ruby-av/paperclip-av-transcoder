@@ -50,7 +50,6 @@ module Paperclip
       if @meta
         log "Transcoding supported file #{@file.path}"
         @cli.add_source(@file.path)
-        @cli.add_destination(dst.path)
         @cli.reset_input_filters
 
         if output_is_image?
@@ -71,6 +70,8 @@ module Paperclip
             end
           end
         end
+        
+        @cli.add_destination(dst.path)
 
         begin
           @cli.run

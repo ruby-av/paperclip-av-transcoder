@@ -30,7 +30,7 @@ module Paperclip
         @shrink_only      = @keep_aspect    && modifier == '>'
       end
 
-      @time             = options[:time].nil? ? 3 : options[:time]
+      @time             = options[:time].nil? ? 0 : options[:time]
       @auto_rotate      = options[:auto_rotate].nil? ? false : options[:auto_rotate]
       @pad_color        = options[:pad_color].nil? ? "black" : options[:pad_color]
 

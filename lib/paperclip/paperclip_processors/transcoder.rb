@@ -30,7 +30,7 @@ module Paperclip
         @shrink_only      = @keep_aspect    && modifier == '>'
       end
 
-      @time             = options[:time].nil? ? 0 : options[:time]
+      @time             = options[:time].nil? ? default_time : options[:time]
       @auto_rotate      = options[:auto_rotate].nil? ? false : options[:auto_rotate]
       @pad_color        = options[:pad_color].nil? ? "black" : options[:pad_color]
 
@@ -104,6 +104,11 @@ module Paperclip
 
     def output_is_image?
       !!@format.to_s.match(/jpe?g|png|gif$/)
+    end
+
+    def default_time
+      duration = @meta[:duration].to_f rescue 0
+      duration < 3 ? 0 : 3
     end
   end
 
